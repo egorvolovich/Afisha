@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "702511715061",
+    "firebase_url": "https://afisha-f03ec.firebaseio.com",
+    "project_id": "afisha-f03ec",
+    "storage_bucket": "afisha-f03ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702511715061:android:5a602479113f7b65812bbc",
+        "android_client_info": {
+          "package_name": "com.volovich.afisha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702511715061-r03nr5oqkrpnphfb4qg33iqt8tssqf7i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.volovich.afisha",
+            "certificate_hash": "c8e62f2bd3b70100eb73c5f522393262093ec5f5"
+          }
+        },
+        {
+          "client_id": "702511715061-njn5ks53tl0ist6bdg4degnsrp98noro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwCFVivm_XoJRplAlMkljWTpXdyovCwBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702511715061-njn5ks53tl0ist6bdg4degnsrp98noro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

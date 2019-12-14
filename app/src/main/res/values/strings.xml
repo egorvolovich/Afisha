@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Afisha</string>
+    <string name="event_price_value">%d BYN</string>
+    <string name="firestore_collection_events">events</string>
+    <string name="firestore_collection_wishlists">wishlists</string>
+    <string name="firestore_field_uid">uid</string>
+    <string name="firestore_field_event_id">eventId</string>
+    <string name="event_added">Event added</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="add_event">Add event</string>
+</resources>
