@@ -38,6 +38,8 @@ public class WishlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist);
 
+        setTitle(getResources().getString(R.string.wishlist));
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null)
             uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         else uid = "";

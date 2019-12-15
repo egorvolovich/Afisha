@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">Afisha</string>
-    <string name="event_price_value">%d BYN</string>
+    <string name="app_name">Афиша</string>
+    <string name="event_price_value">%d руб</string>
     <string name="firestore_collection_events">events</string>
     <string name="firestore_collection_wishlists">wishlists</string>
     <string name="firestore_field_uid">uid</string>
     <string name="firestore_field_count">count</string>
     <string name="firestore_field_event_id">eventId</string>
-    <string name="wishlist">Wishlist</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="add_event">Add event</string>
-    <string name="event_added_info">In your wishlist are %d event(s) with total price %d BYN</string>
-    <string name="choose_a_count_of_tickets">Choose a count of tickets</string>
-    <string name="wishlist_price_value">%d x %d = % d BYN</string>
-    <string name="you_havent_mark_any_event_yet">You haven\'t mark any event yet</string>
+    <string name="wishlist">Избранное</string>
+    <string name="sign_out">Выйти</string>
+    <string name="add_event">Добавить</string>
+    <string name="event_added_info">В вашем избранном %d билета (-ов) с итоговой стомостю %d руб</string>
+    <string name="choose_a_count_of_tickets">Выберите колиство билетов</string>
+    <string name="wishlist_price_value">%d x %d = % d руб</string>
+    <string name="you_havent_mark_any_event_yet">Вы не отметили ни одно мероприятие</string>
 </resources>
