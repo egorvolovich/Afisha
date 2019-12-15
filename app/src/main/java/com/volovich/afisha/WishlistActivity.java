@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,7 +44,6 @@ public class WishlistActivity extends AppCompatActivity {
 
         //initialize adapter with empty list of events
         this.wishlistAdapter = new WishlistAdapter(this, new ArrayList<Event>());
-
         setRecyclerView();
         loadWishesFromFirestore();
     }
@@ -56,6 +58,8 @@ public class WishlistActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult() != null) {
+                        if (task.getResult().size() == 0)
+                            Snackbar.make(findViewById(R.id.wishlist_recycler_view), getString(R.string.you_havent_mark_any_event_yet), Snackbar.LENGTH_LONG).show();
                         List<Wishlist> wishlists = new ArrayList<>();
                         for (QueryDocumentSnapshot result : task.getResult()) {
                             Wishlist wishlist = result.toObject(Wishlist.class);
@@ -76,6 +80,8 @@ public class WishlistActivity extends AppCompatActivity {
                                         event.setDocumentId(wishlist.getEventId());
                                         //for easy access between collections
                                         event.setWishListDocumentId(wishlist.getDocumentId());
+                                        //for counting a total price
+                                        event.setCount(wishlist.getCount());
                                         Log.d("logs", event.getWishListDocumentId());
                                         wishlistAdapter.addEvent(event);
                                         Log.d("logs", event.getTitle());
@@ -93,6 +99,20 @@ public class WishlistActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.wishlist_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(wishlistAdapter);
+
+        //for swiping
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                wishlistAdapter.removeEventFromWishlist(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     @Override

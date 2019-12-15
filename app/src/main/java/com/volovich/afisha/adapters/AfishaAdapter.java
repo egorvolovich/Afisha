@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -73,6 +76,9 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
         private TextView eventDateTextView;
         private TextView eventPriceTextView;
         private Button eventMarkButton;
+        private SeekBar eventCountSeekBar;
+        private LinearLayout countLinearLayout;
+        private TextView eventIfAddedInfo;
 
         EventViewHolder(View itemView) {
             super(itemView);
@@ -84,12 +90,15 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
             eventDateTextView = itemView.findViewById(R.id.event_date_text_view);
             eventPriceTextView = itemView.findViewById(R.id.event_price_text_view);
             eventMarkButton = itemView.findViewById(R.id.event_mark_button);
+            eventCountSeekBar = itemView.findViewById(R.id.event_count_seek_bar);
+            countLinearLayout = itemView.findViewById(R.id.event_count_linear_layout);
+            eventIfAddedInfo = itemView.findViewById(R.id.event_added_text_view);
         }
 
         void bind(final Event event) {
 
             Date eventDate = event.getDate().toDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm, dd.MM.yyyy", Locale.ENGLISH);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm\ndd.MM.yyyy", Locale.ENGLISH);
 
             Picasso.get().load(event.getImageURL()).centerCrop().fit().into(eventImageView);
             eventTitleTextView.setText(event.getTitle());
@@ -98,29 +107,38 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
             eventAddressTextView.setText(event.getAddress());
             eventDateTextView.setText(dateFormat.format(eventDate));
             eventPriceTextView.setText(String.format(context.getString(R.string.event_price_value), event.getPrice()));
-            setButtonMark(event.isMark());
+            setEventAccordingToMarkMark(event);
             eventMarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    addEventToWishlist(event);
-                    event.setMark(true);
-                    setButtonMark(event.isMark());
+                    if (eventCountSeekBar.getProgress() != 0) {
+                        addEventToWishlist(event, eventCountSeekBar.getProgress());
+                        event.setMark(true);
+                        event.setCount(eventCountSeekBar.getProgress());
+                        setEventAccordingToMarkMark(event);
+                    } else {
+                        Snackbar.make(itemView, context.getString(R.string.choose_a_count_of_tickets), Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
 
         }
 
-        private void setButtonMark(boolean mark) {
-            eventMarkButton.setClickable(!mark);
-            if (mark) eventMarkButton.setText(context.getText(R.string.event_added));
-            else eventMarkButton.setText(context.getString(R.string.add_event));
-//            notifyDataSetChanged();
+        private void setEventAccordingToMarkMark(Event event) {
+            if (event.isMark()) {
+                countLinearLayout.setVisibility(View.GONE);
+                eventIfAddedInfo.setVisibility(View.VISIBLE);
+                eventIfAddedInfo.setText(String.format(
+                        context.getString(R.string.event_added_info), event.getCount()
+                        , event.getCount() * event.getPrice()));
+            }
         }
 
-        private void addEventToWishlist(Event event) {
+        private void addEventToWishlist(Event event, int progress) {
             Map<String, Object> data = new HashMap<>();
             data.put(context.getString(R.string.firestore_field_uid), AfishaActivity.getUID());
             data.put(context.getString(R.string.firestore_field_event_id), event.getDocumentId());
+            data.put(context.getString(R.string.firestore_field_count), progress);
             FirebaseFirestore.getInstance()
                     .collection(context.getString(R.string.firestore_collection_wishlists))
                     .document().set(data);
@@ -139,6 +157,7 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
                 //if query task brings a result which size is not 0, it means that user marked this event previously
                 if (task.isSuccessful() && task.getResult() != null && task.getResult().size() != 0) {
                     event.setMark(true);
+                    event.setCount((long) task.getResult().getDocuments().get(0).get(context.getString(R.string.firestore_field_count)));
                     Log.d("logs", "true");
                 } else {
                     event.setMark(false);
@@ -147,7 +166,7 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
                 Log.d("logs", "marked");
                 //needs to update displaying of recycler view
                 notifyItemChanged(events.indexOf(event));
-                notifyDataSetChanged();
+                // notifyDataSetChanged();
             }
         });
     }

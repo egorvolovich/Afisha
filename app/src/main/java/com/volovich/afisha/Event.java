@@ -14,6 +14,8 @@ public class Event {
     private String place;
     private String address;
 
+    //all fields below aren't firestores, they changes locally
+
     //field documentId is not a value that belongs to firestore document, we fill it in Java code (in AfishaActivity)
     private String documentId;
 
@@ -23,11 +25,14 @@ public class Event {
     //this field changes in Afisha Adapter. If mark = true, it means that user liked this event
     private boolean mark;
 
+    //this field changes in Afisha Adapter. If mark = true, it fills with count of liked tickets
+    private long count;
+
     //needs empty constructor for firebase
     public Event() {
     }
 
-    public Event(String title, String description, String imageURL, Timestamp date, long price, String place, String address, String documentId, String wishListDocumentId, boolean mark) {
+    public Event(String title, String description, String imageURL, Timestamp date, long price, String place, String address, String documentId, String wishListDocumentId, boolean mark, int count) {
         this.title = title;
         this.description = description;
         this.imageURL = imageURL;
@@ -38,6 +43,7 @@ public class Event {
         this.documentId = documentId;
         this.wishListDocumentId = wishListDocumentId;
         this.mark = mark;
+        this.count = count;
     }
 
     public String getTitle() {
@@ -118,5 +124,14 @@ public class Event {
 
     public void setWishListDocumentId(String wishListDocumentId) {
         this.wishListDocumentId = wishListDocumentId;
+    }
+
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
     }
 }

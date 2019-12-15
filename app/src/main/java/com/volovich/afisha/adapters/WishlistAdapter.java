@@ -1,6 +1,7 @@
 package com.volovich.afisha.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Marked
 
         private TextView markedEventDateTextView;
         private TextView markedEventPriceTextView;
-        private Button markedEventUnMarkButton;
 
         MarkedEventViewHolder(View itemView) {
             super(itemView);
@@ -70,34 +70,33 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Marked
             markedEventPlaceTextView = itemView.findViewById(R.id.marked_event_place_text_view);
             markedEventDateTextView = itemView.findViewById(R.id.marked_event_date_text_view);
             markedEventPriceTextView = itemView.findViewById(R.id.marked_event_price_text_view);
-            markedEventUnMarkButton = itemView.findViewById(R.id.marked_event_un_mark_button);
         }
 
         void bind(final Event markedEvent) {
 
             Date eventDate = markedEvent.getDate().toDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm, dd.MM.yyyy", Locale.ENGLISH);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm\ndd.MM.yyyy", Locale.ENGLISH);
 
             markedEventTitleTextView.setText(markedEvent.getTitle());
             markedEventPlaceTextView.setText(markedEvent.getPlace());
             markedEventDateTextView.setText(dateFormat.format(eventDate));
-            markedEventPriceTextView.setText(String.format(context.getString(R.string.event_price_value), markedEvent.getPrice()));
-            markedEventUnMarkButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    removeEventFromWishlist(markedEvent);
-                    markedEvents.remove(markedEvent);
-                    notifyDataSetChanged();
-                }
-            });
-        }
-
-        private void removeEventFromWishlist(Event event) {
-            FirebaseFirestore.getInstance()
-                    .collection(context.getString(R.string.firestore_collection_wishlists))
-                    .document(event.getWishListDocumentId())
-                    .delete();
+            markedEventPriceTextView.setText(String.format(context.getString(R.string.wishlist_price_value)
+                    , markedEvent.getCount()
+                    , markedEvent.getPrice()
+                    , markedEvent.getCount() * markedEvent.getPrice()));
         }
     }
 
+    public void removeEventFromWishlist(/*Event markedEvent*/ int position) {
+
+        FirebaseFirestore.getInstance()
+                .collection(context.getString(R.string.firestore_collection_wishlists))
+                .document(markedEvents.get(position).getWishListDocumentId())
+                .delete();
+        markedEvents.remove(position);
+        notifyItemRemoved(position);
+        //notifyDataSetChanged();
+    }
+
 }
+
