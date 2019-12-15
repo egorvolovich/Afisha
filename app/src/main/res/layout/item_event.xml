@@ -129,13 +129,14 @@
                         android:text="@string/choose_a_count_of_tickets"
                         android:textAlignment="center" />
 
-                    <SeekBar
+                    <com.warkiz.widget.IndicatorSeekBar
                         android:id="@+id/event_count_seek_bar"
                         style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:max="5"
-                        android:progress="3"
+                        app:isb_max="10"
+                        app:isb_min="1.0"
+                        app:isb_progress="3"
                         android:scrollbarSize="8dp" />
                 </LinearLayout>
 

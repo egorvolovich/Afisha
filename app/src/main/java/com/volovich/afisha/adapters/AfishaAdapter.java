@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import com.volovich.afisha.AfishaActivity;
 import com.volovich.afisha.Event;
 import com.volovich.afisha.R;
+import com.warkiz.widget.IndicatorSeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
         private TextView eventDateTextView;
         private TextView eventPriceTextView;
         private Button eventMarkButton;
-        private SeekBar eventCountSeekBar;
+        private IndicatorSeekBar eventCountSeekBar;
         private LinearLayout countLinearLayout;
         private TextView eventIfAddedInfo;
 
@@ -111,14 +112,10 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
             eventMarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (eventCountSeekBar.getProgress() != 0) {
-                        addEventToWishlist(event, eventCountSeekBar.getProgress());
-                        event.setMark(true);
-                        event.setCount(eventCountSeekBar.getProgress());
-                        setEventAccordingToMarkMark(event);
-                    } else {
-                        Snackbar.make(itemView, context.getString(R.string.choose_a_count_of_tickets), Snackbar.LENGTH_SHORT).show();
-                    }
+                    addEventToWishlist(event, eventCountSeekBar.getProgress());
+                    event.setMark(true);
+                    event.setCount(eventCountSeekBar.getProgress());
+                    setEventAccordingToMarkMark(event);
                 }
             });
 
