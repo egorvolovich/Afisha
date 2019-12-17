@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewHolder> {
+public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewHolder> {   //адаптер заполняет данными viewHolder. ViewHolder - один элемент мероприятия
 
     private ArrayList<Event> events;
     private Context context;
@@ -48,22 +48,23 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
         checkIfEventIsInWishlist(event);
     }
 
+// В базовом классе RecyclerView.Adapter< > есть 1 метод(onBindViewHolder-), 1 конструктор(onCreateViewHolder) и 1 число, которые можно переопределить(override).
 
     @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {   //  при первом появлении элемента на экране вызывается данный метод, который в RecuylerView записывает элемент с макетом item_event
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event, parent, false);
         return new EventViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {   //при  появлении  на экране EventViewHolder заполняется данными из списка, беря элемента по позиции в recyclerView
         holder.bind(events.get(position));
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount() {   // возвращает число элементов списка, необходимо для того, чтобы RecyclerView  корректно отображал свое количество элементов
         return events.size();
     }
 
@@ -101,7 +102,7 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
             Date eventDate = event.getDate().toDate();
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm\ndd.MM.yyyy", Locale.ENGLISH);
 
-            Picasso.get().load(event.getImageURL()).centerCrop().fit().into(eventImageView);
+            Picasso.get().load(event.getImageURL()).centerCrop().fit().into(eventImageView); //  метод, который вставляет картинки
             eventTitleTextView.setText(event.getTitle());
             eventDescriptionTextView.setText(event.getDescription());
             eventPlaceTextView.setText(event.getPlace());

@@ -9,8 +9,8 @@
     <string name="wishlist">Избранное</string>
     <string name="sign_out">Выйти</string>
     <string name="add_event">Добавить</string>
-    <string name="event_added_info">В вашем избранном %d билета (-ов) с итоговой стомостю %d руб</string>
-    <string name="choose_a_count_of_tickets">Выберите колиство билетов</string>
+    <string name="event_added_info">В вашем избранном %d билета (-ов) с итоговой стоимостью %d руб</string>
+    <string name="choose_a_count_of_tickets">Выберите количество билетов</string>
     <string name="wishlist_price_value">%d x %d = % d руб</string>
     <string name="you_havent_mark_any_event_yet">Вы не отметили ни одно мероприятие</string>
 </resources>
