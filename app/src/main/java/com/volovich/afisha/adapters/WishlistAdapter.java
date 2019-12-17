@@ -26,9 +26,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Marked
     private ArrayList<Event> markedEvents;
     private Context context;
 
-    public WishlistAdapter(Context context, ArrayList<Event> markedEvents) {
+    public WishlistAdapter(Context context) {
         this.context = context;
-        this.markedEvents = markedEvents;
+        this.markedEvents = new ArrayList<>();
     }
 
     public void addEvent(Event event) {

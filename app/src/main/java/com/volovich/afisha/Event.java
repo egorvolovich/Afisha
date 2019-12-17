@@ -14,7 +14,7 @@ public class Event {
     private String place;
     private String address;
 
-    //all fields below aren't firestores, they changes locally
+    //all fields below aren't firestore's, they changes locally
 
     //field documentId is not a value that belongs to firestore document, we fill it in Java code (in AfishaActivity)
     private String documentId;

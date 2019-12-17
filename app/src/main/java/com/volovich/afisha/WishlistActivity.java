@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +44,7 @@ public class WishlistActivity extends AppCompatActivity {
         else uid = "";
 
         //initialize adapter with empty list of events
-        this.wishlistAdapter = new WishlistAdapter(this, new ArrayList<Event>());
+        this.wishlistAdapter = new WishlistAdapter(this);
         setRecyclerView();
         loadWishesFromFirestore();
     }
@@ -120,7 +119,7 @@ public class WishlistActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present
-        getMenuInflater().inflate(R.menu.menu_whishlist, menu);
+        getMenuInflater().inflate(R.menu.menu_wishlist, menu);
         return true;
     }
 

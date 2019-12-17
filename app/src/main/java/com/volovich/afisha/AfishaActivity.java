@@ -38,7 +38,7 @@ public class AfishaActivity extends AppCompatActivity {
         else UID = "";
 
         //initialize adapter with empty list of events
-        this.afishaAdapter = new AfishaAdapter(this, new ArrayList<Event>());
+        this.afishaAdapter = new AfishaAdapter(this);
 
         setRecyclerView();
         loadEventsFromFirestore();
@@ -61,7 +61,7 @@ public class AfishaActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     if (task.getResult() != null) {
                         Log.d("logs", "loaded");
-                        ArrayList<Event> events = (ArrayList<Event>) task.getResult().toObjects(Event.class);
+                        ArrayList<Event> events = (ArrayList<Event>) task.getResult().toObjects(Event.class);  // данные из task.getResult конвертируются в объекты класса event и присваиваются ArrayList
                         for (int i = 0; i < events.size(); i++) {
                             Log.d("logs", "adding " + task.getResult().getDocuments().get(i).getId());
                             events.get(i).setDocumentId(task.getResult().getDocuments().get(i).getId());

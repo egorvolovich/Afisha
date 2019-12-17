@@ -134,10 +134,10 @@
                         style="@style/Widget.AppCompat.SeekBar.Discrete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:scrollbarSize="8dp"
                         app:isb_max="10"
                         app:isb_min="1.0"
-                        app:isb_progress="3"
-                        android:scrollbarSize="8dp" />
+                        app:isb_progress="3" />
                 </LinearLayout>
 
                 <Button

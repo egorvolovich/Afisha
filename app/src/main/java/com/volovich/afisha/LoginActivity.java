@@ -16,14 +16,14 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 123;
+    private static final int RC_SIGN_IN = 123;  // успешный код регистрации, определяется вручную
     private static final String TAG = "log";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
-        checkUserAuthorization();
+        setContentView(R.layout.login_activity);  // связывает xml с Java
+        checkUserAuthorization(); //вызов метода
     }
 
     private void checkUserAuthorization() {

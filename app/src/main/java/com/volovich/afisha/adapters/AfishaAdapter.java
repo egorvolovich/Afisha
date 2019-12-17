@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -37,9 +35,9 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
     private ArrayList<Event> events;
     private Context context;
 
-    public AfishaAdapter(Context context, ArrayList<Event> events) {
+    public AfishaAdapter(Context context) {
         this.context = context;
-        this.events = events;
+        this.events = new ArrayList<>();
     }
 
     public void addEvent(Event event) {
@@ -109,20 +107,20 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
             eventAddressTextView.setText(event.getAddress());
             eventDateTextView.setText(dateFormat.format(eventDate));
             eventPriceTextView.setText(String.format(context.getString(R.string.event_price_value), event.getPrice()));
-            setEventAccordingToMarkMark(event);
+            setEventAccordingToMark(event);
             eventMarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     addEventToWishlist(event, eventCountSeekBar.getProgress());
                     event.setMark(true);
                     event.setCount(eventCountSeekBar.getProgress());
-                    setEventAccordingToMarkMark(event);
+                    setEventAccordingToMark(event);
                 }
             });
 
         }
 
-        private void setEventAccordingToMarkMark(Event event) {
+        private void setEventAccordingToMark(Event event) {
             if (event.isMark()) {
                 countLinearLayout.setVisibility(View.GONE);
                 eventIfAddedInfo.setVisibility(View.VISIBLE);
@@ -155,7 +153,7 @@ public class AfishaAdapter extends RecyclerView.Adapter<AfishaAdapter.EventViewH
                 //if query task brings a result which size is not 0, it means that user marked this event previously
                 if (task.isSuccessful() && task.getResult() != null && task.getResult().size() != 0) {
                     event.setMark(true);
-                    event.setCount((long) task.getResult().getDocuments().get(0).get(context.getString(R.string.firestore_field_count)));
+                    event.setCount((long) task.getResult().getDocuments().get(0).get(context.getString(R.string.firestore_field_count))); // мы локально добавляем мероприятияю количество билетов, которое берем из избранного пользователя
                     Log.d("logs", "true");
                 } else {
                     event.setMark(false);
